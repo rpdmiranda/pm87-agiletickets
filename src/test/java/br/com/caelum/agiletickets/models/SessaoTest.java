@@ -14,6 +14,17 @@ public class SessaoTest {
 	}
 	
 	@Test
+	public void naoDeveVenderNumeroInvalidoDeIngressos() {
+		Sessao sessao = new Sessao();
+		sessao.setTotalIngressos(2);
+		
+		Assert.assertFalse(sessao.podeReservar(0));
+		Assert.assertFalse(sessao.podeReservar(-10));
+		Assert.assertFalse(sessao.podeReservar(null));
+	}
+	
+	
+	@Test
 	public void deveVender1ingressoSeHa2vagas() throws Exception {
 		Sessao sessao = new Sessao();
         sessao.setTotalIngressos(2);
