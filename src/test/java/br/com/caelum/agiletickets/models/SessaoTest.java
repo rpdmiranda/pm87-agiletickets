@@ -132,7 +132,7 @@ public class SessaoTest {
 				Periodicidade.DIARIA);
 		
 		Assert.assertNotNull(sessoes);
-		Assert.assertEquals("Sem sessões criadas", 1, sessoes.size());
+		Assert.assertEquals("Sem sessões criadas", 0, sessoes.size());
 	}	
 	
 }
