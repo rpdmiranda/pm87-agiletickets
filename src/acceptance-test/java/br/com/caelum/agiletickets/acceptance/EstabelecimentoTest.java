@@ -1,10 +1,16 @@
 package br.com.caelum.agiletickets.acceptance;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.By.ById;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.By.ByCssSelector;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import br.com.caelum.agiletickets.acceptance.page.EstabelecimentosPage;
@@ -46,6 +52,7 @@ public class EstabelecimentoTest {
 
 		estabelecimentos.adicioneEstabelecimento("", "R. Vergueiro, 3185");
 
+		browser.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
 		estabelecimentos.deveMostrarErro("O nome não pode ser vazio");
 	}
 
@@ -55,6 +62,7 @@ public class EstabelecimentoTest {
 
 		estabelecimentos.adicioneEstabelecimento("Caelum", "");
 
+		browser.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
 		estabelecimentos.deveMostrarErro("O endereco não pode ser vazio");
 	}
 
@@ -76,4 +84,14 @@ public class EstabelecimentoTest {
 		estabelecimentos.ultimaLinhaDeveTerEstacionamento(false);
 	}
 	
+	@Test
+	public void reservaUmIngressoEmSalaQuaseLotada() throws Exception {
+		browser.get(BASE_URL + "/");
+		browser.findElement(ByCssSelector.cssSelector("#sessoes li a[href$='67']")).click();
+		browser.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+		browser.findElement(ById.id("qtde")).sendKeys("1");
+		browser.findElement(ByCssSelector.cssSelector("form")).submit();
+		browser.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+		Assert.assertTrue("Valor de 55", browser.findElement(ById.id("message")).getText().contains("55"));
+	}
 }
